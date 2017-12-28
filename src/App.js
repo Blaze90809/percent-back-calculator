@@ -91,8 +91,9 @@ class App extends Component {
     return (
       <div className="App">
         <h1>Percent back calculator</h1>
+        <h3>Feel the burn</h3>
         <form onSubmit={this.calcPercentBack}>
-          <label>First Place Hours: <input type="text" pattern="[0-9]*" value={this.state.skierOneHours} onChange={this.updateskierOneHours} /></label><br></br>{this.state.skierOneHours}
+          <label>First Place Hours: <input type="text" pattern="[0-9]*" ref="skierOneHours" value={this.state.skierOneHours} onChange={this.updateskierOneHours} /></label><br></br>{this.state.skierOneHours}
           <label>First Place Minutes: <input type="text" pattern="[0-9]*" value={this.state.skierOneMinutes} onChange={this.updateskierOneMinutes} /></label><br></br>{this.state.skierOneMinutes}
           <label>First Place Seconds: <input type="text" pattern="[0-9]*" value={this.state.skierOneSeconds} onChange={this.updateskierOneSeconds} /></label><br></br>{this.state.skierOneSeconds}
           <br></br>
