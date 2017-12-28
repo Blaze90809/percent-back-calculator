@@ -6,6 +6,7 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
+      percentBack: '',
       skierOneHours: '',
       skierOneMinutes: '',
       skierOneSeconds: '',
@@ -19,66 +20,89 @@ class App extends Component {
     this.updateyourHours = this.updateyourHours.bind(this);
     this.updateyourMinutes = this.updateyourMinutes.bind(this);
     this.updateyourSeconds = this.updateyourSeconds.bind(this);
+    this.calcPercentBack = this.calcPercentBack.bind(this);
   }
 
   updateskierOneHours(event) {
     console.log(`skieronehours: ${event.target.value}`)
     this.setState({
-      hours: event.target.value
+      skierOneHours: event.target.value
     });
   }
 
   updateskierOneMinutes(event) {
     console.log(`skieroneminutes: ${event.target.value}`)
     this.setState({
-      minutes: event.target.value
+      skierOneMinutes: event.target.value
     });
   }
 
   updateskierOneSeconds(event) {
     console.log(`skieroneseconds: ${event.target.value}`)
     this.setState({
-      seconds: event.target.value
+      skierOneSeconds: event.target.value
     });
   }
   updateyourHours(event){
     console.log(`updateyourhours: ${event.target.value}`)
     this.setState({
-      hours: event.target.value
+      youSkierHours: event.target.value
     });
   }
   updateyourMinutes(event){
     console.log(`updateyourhours: ${event.target.value}`)
     this.setState({
-      minutes: event.target.value
+      youSkierMinutes: event.target.value
     });
   }
   updateyourSeconds(event){
     console.log(`updateyourhours: ${event.target.value}`)
     this.setState({
-      seconds: event.target.value
+      youSkierSeconds: event.target.value
     });
   }
-  calcPercentBack(event){
+  calcPercentBack(event) {
     event.preventDefault();
+    let firstPlaceSkierHours = this.state.skierOneHours;
+    let firstPlaceSkierMinutes = this.state.skierOneMinutes;
+    let firstPlaceSkierSeconds = this.state.skierOneSeconds;
+    let yourHours = this.state.youSkierHours;
+    let yourMinutes = this.state.youSkierMinutes;
+    let yourSeconds = this.state.youSkierSeconds;
+    let firstPlaceTime = (parseFloat(firstPlaceSkierHours * 60) + parseFloat(firstPlaceSkierMinutes) + parseFloat(firstPlaceSkierSeconds * 0.0166667));
+    console.log('First Place minutes ' + firstPlaceTime)
+    let youTime = (parseFloat(yourHours * 60) + parseFloat(yourMinutes) + parseFloat(yourSeconds * 0.0166667));
+    console.log('Your minutes ' + youTime)
+    let difference = (youTime - firstPlaceTime);
+    console.log('Difference ' + difference);
+    let calcPercentBack = ((difference/firstPlaceTime) * 100);
+    
+    this.setState({
+      percentBack: calcPercentBack
+    });
+    }
+    
 
-  }
+  
 
 
 
   render() {
     return (
-      // <h1>Percent back calculator</h1>
-      <form onSubmit={this.calcPercentBack}>
-        <label> First Place Hours: <input type="text" pattern="[0-9]*" value={this.state.skierOneHours} onChange={this.calcPercentBack} /></label>
-        <label>First Place Minutes: <input type="text" pattern="[0-9]*" value={this.state.skierOneMinutes} onChange={this.calcPercentBack} /></label>
-        <label>First Place Seconds: <input type="text" pattern="[0-9]*" value={this.state.skierOneSeconds} onChange={this.calcPercentBack} /></label>
-        <br></br>
-        <label>Hours: <input type="text" pattern="[0-9]*" value={this.state.youSkierHours} onChange={this.calcPercentBack} /></label>
-        <label>Minutes: <input type="text" pattern="[0-9]*" value={this.state.youSkierMinutes} onChange={this.calcPercentBack} /> </label>
-        <label>Seconds: <input type="text" pattern="[0-9]*" value={this.state.youSkierSeconds} onChange={this.calcPercentBack} /> </label>
-        <input type="submit" value="Submit" />
-      </form>
+      <div className="App">
+        <h1>Percent back calculator</h1>
+        <form onSubmit={this.calcPercentBack}>
+          <label>First Place Hours: <input type="text" pattern="[0-9]*" value={this.state.skierOneHours} onChange={this.updateskierOneHours} /></label><br></br>{this.state.skierOneHours}
+          <label>First Place Minutes: <input type="text" pattern="[0-9]*" value={this.state.skierOneMinutes} onChange={this.updateskierOneMinutes} /></label><br></br>{this.state.skierOneMinutes}
+          <label>First Place Seconds: <input type="text" pattern="[0-9]*" value={this.state.skierOneSeconds} onChange={this.updateskierOneSeconds} /></label><br></br>{this.state.skierOneSeconds}
+          <br></br>
+          <label>Your Hours: <input type="text" pattern="[0-9]*" value={this.state.youSkierHours} onChange={this.updateyourHours} /></label><br></br>{this.state.youSkierHours}
+          <label>Your Minutes: <input type="text" pattern="[0-9]*" value={this.state.youSkierMinutes} onChange={this.updateyourMinutes} /> </label><br></br>{this.state.youSkierMinutes}
+          <label>Your Seconds: <input type="text" pattern="[0-9]*" value={this.state.youSkierSeconds} onChange={this.updateyourSeconds} /> </label><br></br>{this.state.youSkierSeconds}
+          <input type="submit" value="Submit" />
+        </form>
+        <p>Your percent back: </p>{this.state.percentBack}
+      </div>
     );
   }
 }
